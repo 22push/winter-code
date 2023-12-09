@@ -3,19 +3,19 @@ import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { GiHamburgerMenu } from "react-icons/gi";
-import SidebarContext from "../store/sidebar-context";
-import { useContext } from "react";
+// import SidebarContext from "../store/sidebar-context";
+// import { useContext } from "react";
 // import { useState } from 'react';
 const Navbar = (params) => {
-  const sidebarCtx = useContext(SidebarContext);
+  // const sidebarCtx = useContext(SidebarContext);
   const navigate = useNavigate();
   const location = useLocation();
   const locationPath = location.pathname;
 
-  const sidebarHandler = () => {
-    sidebarCtx.toggleSidebar();
-  };
-  console.log(sidebarCtx);
+  // const sidebarHandler = () => {
+  //   sidebarCtx.toggleSidebar();
+  // };
+  // console.log(sidebarCtx);
   const LoginPageHandler = () => {
     if (locationPath === "/") {
       navigate("/login");
@@ -25,9 +25,7 @@ const Navbar = (params) => {
   };
   return (
     <div className={classes.navbar}>
-      <GiHamburgerMenu onClick={sidebarHandler} />
-      <h1>Navbar</h1>
-      <div>Contact Us</div>
+      {/* <GiHamburgerMenu onClick={sidebarHandler} /> */}
       {/* <motion.div> */}
       {locationPath === "/" && (
         <motion.button
@@ -53,8 +51,31 @@ const Navbar = (params) => {
           Home Page
         </motion.button>
       )}
+
       {/* </motion.div> */}
-    </div>
+      <span onClick={() => { navigate('/medicines') }}>Medicines</span>
+      <span>Symptom Checker</span>
+      {/* <span>
+        <div class="container mt-3" style={{ width: '300px' }}>
+          <form class="form-inline">
+            <div className="form-group">
+            <input
+              className="form-control mr-sm-2"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+              style={{ width: '240px' }}
+            />
+            </div>
+            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+
+      </span> */}
+      <div>Contact Us</div>
+    </div >
     // <nav className="navbar navbar-expand-lg bg-body-tertiary">
     //   <div className="container-fluid">
     //     <a className="navbar-brand" href="#">
