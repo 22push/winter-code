@@ -3,6 +3,12 @@ const cookie = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const usersignup = require("./../models/login/login");
 const catchasync = require("./../utils/catchasync");
+const email = require("./../utils/nodemailer");
+const signToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
 exports.signup = async (req, res) => {
     try {
       console.log("signup.....  ", req.body);
@@ -57,3 +63,75 @@ exports.signup = async (req, res) => {
     
     
   });
+
+  exports.forgotPassword = catchasync(async (req, res, next) => {
+    const user = await usersignup.findOne({ emailid: req.body.emailid });
+    if (!user)
+      return res.status(404).json({ masg: "no such user with this email id" });
+  
+    const resetToken = await user.createpasswordresetpassword();
+    console.log(resetToken);
+    await user.save();
+    const code = resetToken;
+    console.log(code);
+    const message = `Your verification code is \n ${resetToken}\n you didn't forget your password, please ignore this email!`;
+    try {
+      await email({
+        email: user.emailid,
+        subject: "Password Reset code",
+        message,
+        // html: `<a href="${resetUrl}">Reset Password</a>`,
+      });
+      res.status(200).json({
+        status: "success",
+        message: "password reset link sent to your email",
+        resetToken,
+      });
+    } catch (err) {
+      user.passwordResetToken = undefined;
+      user.passwordResetExpires = undefined;
+      await user.save({ validateBeforeSave: false });
+      console.log(err);
+      massage: "reset link invalid";
+    }
+  });
+  exports.verifycode = async (req, res, next) => {
+    const hashtoken = req.body.code;
+  console.log(hashtoken);
+    const user = await usersignup.findOne({
+      resetPasswordToken: hashtoken,
+      passwordresetexpired: { $gt: Date.now() },
+    });
+    if (!user) {
+      return res.status(404).json({
+        status: "fail",
+        message: "your code is invalid",
+      });
+    }
+    res.status(200).json({
+      status: "success",
+      message: "go to next page",
+    });
+  };
+  exports.resetPassword = async (req, res, next) => {
+    const hashtoken = req.params.token;
+    console.log(hashtoken);
+    const user = await usersignup.findOne({
+      resetPasswordToken: hashtoken,
+      passwordresetexpired: { $gt: Date.now() },
+    });
+    if (!user) {
+      return res.status(404).json({
+        status: "fail",
+        message: "password reset link is invalid",
+      });
+    }
+    user.password = req.body.password;
+    user.resetPasswordToken = undefined;
+    user.passwordresetexpired = undefined;
+    user.save();
+    res.status(200).json({
+      status: "success",
+      message: "password changed successfully",
+    });
+  };
