@@ -13,6 +13,7 @@ export default function MedicationData() {
             'Frequency': '4 times a day',
             'Time': '8:00 AM',
             'Notification': 'On',
+            'edit': true,
         },
         {
             'id': '2',
@@ -24,6 +25,7 @@ export default function MedicationData() {
             'Frequency': '4 times a day',
             'Time': '8:00 AM',
             'Notification': 'On',
+            'edit': true,
         },
     ]
 

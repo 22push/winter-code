@@ -1,10 +1,13 @@
 import { useParams } from "react-router";
 import classes from './MedicationData.module.css';
+import styles from './medicineFormContainer.module.css';
 import ItemList from './ItemList';
+import { useState } from "react";
 
 export default function MedicationDataID() {
+    const [edit, setEdit] = useState(false);
     const { id } = useParams();
-    const data = [
+    const Loaddata = [
         {
             'id': '1',
             'MedicationName': 'Paracetamol',
@@ -15,6 +18,7 @@ export default function MedicationDataID() {
             'Frequency': '4 times a day',
             'Time': '8:00 AM',
             'Notification': 'On',
+            'edit': false,
         },
         {
             'id': '2',
@@ -26,18 +30,177 @@ export default function MedicationDataID() {
             'Frequency': '4 times a day',
             'Time': '8:00 AM',
             'Notification': 'On',
+            'edit': false,
         },
     ]
-    const selectedMedi = data.filter((ele) => ele.id === id);
-    // console.log(selectedMedi);
+    let selectedMedi = Loaddata.filter((ele) => ele.id === id);
+
+    const editHandler = () => {
+        const data = selectedMedi[0];
+        setEdit(!edit);
+        console.log("edit");
+        setMedication({
+            name: data.MedicationName,
+            dosage: data.Dosage,
+            prescriptionDetails: data.PrescriptionDetails,
+            form: data.MedicationForm,
+            instructions: data.Instructions,
+        });
+        setReminder({
+            frequency: data.Frequency,
+            time: data.Time,
+            pushNotification: data.Notification,
+        });
+    }
+
+    const [medication, setMedication] = useState({
+        name: '',
+        dosage: '',
+        prescriptionDetails: '',
+        form: '',
+        instructions: '',
+    });
+
+    const [reminder, setReminder] = useState({
+        frequency: 'daily',
+        time: '',
+        pushNotification: true,
+    });
+
+    const handleInputChange = (e) => {
+
+        const { name, value } = e.target;
+        console.log(name, value);
+        setMedication((prevMedication) => ({
+            ...prevMedication,
+            [name]: value,
+        }));
+    };
+
+    const handleReminderChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setReminder((prevReminder) => ({
+            ...prevReminder,
+            [name]: type === 'checkbox' ? checked : value,
+        }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log('Medication Data:', medication);
+        console.log('Reminder Data:', reminder);
+
+
+        setMedication({
+            name: '',
+            dosage: '',
+            prescriptionDetails: '',
+            form: '',
+            instructions: '',
+        });
+        setReminder({
+            frequency: 'daily',
+            time: '',
+            pushNotification: true,
+        });
+        setEdit(!edit);
+    };
+    console.log(selectedMedi);
     return (
         <div className={classes.container}>
             <h1>Medication Data</h1>
-            <div className={classes["content-container"]}>{<ItemList items={selectedMedi} />}</div>
-            <div className="d-flex justify-content-between align-items-center">
-                <button className={classes["btn"]}>Edit</button>
-                <button className={classes["btn"]}>Delete</button>
-            </div>
+            {!edit && <><div className={classes["content-container"]}>{<ItemList items={selectedMedi} />}</div>
+                <div className="d-flex justify-content-between align-items-center">
+                    <button className={classes["btn"]} onClick={editHandler}>Edit</button>
+                    <button className={classes["btn"]}>Delete</button>
+                </div>
+            </>}
+            {edit && <div>
+                <div className={styles.container}>
+                    <div className={styles['medicine-form-container']}>
+                        {/* <h2>Medication Form</h2> */}
+                        <form onSubmit={handleSubmit}>
+
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Medication Name:</span>
+                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="name"
+                                    value={medication.name}
+                                    onChange={handleInputChange} />
+                            </div>
+                            {/* {console.log(medication.name)} */}
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Dosage:</span>
+                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="dosage"
+                                    value={medication.dosage}
+                                    onChange={handleInputChange} />
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Prescription Details:</span>
+                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="prescriptionDetails"
+                                    value={medication.prescriptionDetails}
+                                    onChange={handleInputChange} />
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Medication Form</span>
+                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="form"
+                                    value={medication.form}
+                                    onChange={handleInputChange} />
+                            </div>
+
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="inputGroup-sizing-default">Instructions:</span>
+                                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="instructions"
+                                    value={medication.instructions}
+                                    onChange={handleInputChange} />
+                            </div>
+
+
+                            <div className={styles['reminder-section']}>
+                                <h3>Reminder</h3>
+                                <div className={styles['form-group']}>
+                                    <label>Frequency:</label>
+                                    <select
+                                        name="frequency"
+                                        value={reminder.frequency}
+                                        onChange={handleReminderChange}
+                                    >
+                                        <option value="">Daily</option>
+                                        <option value="weekly">Weekly</option>
+                                    </select>
+                                </div>
+
+                                <div className={styles['form-group']}>
+                                    <label>Time:</label>
+                                    <input
+                                        type="time"
+                                        name="time"
+                                        value={reminder.time}
+                                        onChange={handleReminderChange}
+                                    />
+                                </div>
+
+                                <div className={styles['form-group']}>
+                                    <label>
+                                        Push Notification:
+                                        <input
+                                            type="checkbox"
+                                            name="pushNotification"
+                                            checked={reminder.pushNotification}
+                                            onChange={handleReminderChange}
+                                        />
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>}
         </div>
     );
 }

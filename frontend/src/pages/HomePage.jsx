@@ -1,5 +1,5 @@
 import { Outlet } from "react-router";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import { useNavigate } from 'react-router';
 
 export default function HomePage() {
