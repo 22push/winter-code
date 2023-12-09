@@ -6,8 +6,8 @@ import { useState } from 'react';
 export default function Medicines() {
 
     const [input, setInput] = useState('');
-    const [search1, setSearch1] = useState('');
-    const [search2, setSearch2] = useState('');
+    // const [search1, setSearch1] = useState('');
+    // const [search2, setSearch2] = useState('');
 
     const inuptChangeHandler = (event) => {
         setInput(event.target.value);

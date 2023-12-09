@@ -19,12 +19,13 @@ const ItemList = (props) => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 3 }}
+      transition={{ duration: 0.5 }}
       className={classes["goal-list"]}>
       {props.items.map(goal => (
         <Items
           key={goal.id}
           id={goal.id}
+          edit={goal.edit}
         >
           <h2>Name: {goal.MedicationName}</h2>
           <p>Dosage: {goal.Dosage}</p>

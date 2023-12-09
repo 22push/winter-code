@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import styles from './medicineFormContainer.module.css';
 
-const MedicineInputForm = (props) => {
+const MedicineInputForm = () => {
     const [medication, setMedication] = useState({
-        name: props.name,
-        dosage: props.dosage,
-        prescriptionDetails: props.prescriptionDetails,
-        form: props.form,
-        instructions: props.instructions,
+        name: '',
+        dosage: '',
+        prescriptionDetails: '',
+        form: '',
+        instructions: '',
     });
 
     const [reminder, setReminder] = useState({
         frequency: 'daily',
-        time: props.time,
-        pushNotification: props.notification,
+        time: '',
+        pushNotification: true,
     });
 
     const handleInputChange = (e) => {

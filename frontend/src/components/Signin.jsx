@@ -1,13 +1,20 @@
 import classes from "./Signin.module.css";
+import axios from "axios";
 import { useNavigate } from "react-router";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
+import { ToLink } from "../App";
 
 const Signin = (props) => {
   const navigate = useNavigate();
-  const [password, setPassword] = useState("");
+  const [errormsg, setErrormsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const nameInputRef = useRef();
+  const phoneInputRef = useRef();
+  const emailInputRef = useRef();
+  const passwordInputRef = useRef();
 
   const handleTogglePassword = (e) => {
     e.preventDefault();
@@ -20,6 +27,79 @@ const Signin = (props) => {
     } else {
       navigate("/signup");
     }
+  };
+  const forgotPasswordHandler = () => {
+    navigate("forgotpassword");
+  };
+
+
+
+  const signupLoginHandler = async (e) => {
+    e.preventDefault();
+    let enteredName = "";
+    const enteredEmail = emailInputRef.current.value;
+    const enteredPassword = passwordInputRef.current.value;
+    if (enteredEmail.trim().length === 0 || enteredPassword.trim().length === 0)
+      return setErrormsg("Please enter all the fields");
+    const data = {
+      emailid: enteredEmail,
+      password: enteredPassword,
+    };
+    if (props.pagename === "Signup") {
+      enteredName = nameInputRef.current.value;
+      data.name = enteredName;
+      if (enteredEmail.trim().length === 0) { return setErrormsg("Please enter all the fields"); }
+    } else {
+      const enteredPhone = phoneInputRef.current.value;
+      data.phoneno = enteredPhone;
+      const idno = (Math.floor(Math.random() * 10000) % 15) + 1;
+      data.id = idno;
+
+      const page = props.pagename.toLowerCase();
+
+      try {
+        // console.log(`${ToLink}/${selBut}/${page}`);
+        setIsLoading(true);
+        let resp;
+        if (props.pagename === "Signup") {
+          // resp = await axios.post(`${ToLink}/${selBut}/${page}`, data, options, {
+          //   timeout: 30000,
+          // });
+        } else {
+          // resp = await axios.post(`${ToLink}/${selBut}/${page}`, data, {
+          //   timeout: 30000,
+          // });
+        }
+
+        if (resp.status === 201 || resp.status === 200) {
+          localStorage.setItem("isLoggedIn", "1");
+          localStorage.setItem("email", enteredEmail);
+          if (props.pagename === "Login") {
+            localStorage.setItem("name", resp.data.name);
+            localStorage.setItem("token", resp.data.token);
+            localStorage.setItem("id", resp.data.id);
+          }
+          emailInputRef.current.value = "";
+          passwordInputRef.current.value = "";
+          if (props.pagename === "Signup") {
+            localStorage.setItem("name", enteredName);
+            nameInputRef.current.value = "";
+            phoneInputRef.current.value = "";
+          }
+          setTimeout(() => {
+            navigate("/");
+          }, 1000);
+        }
+        // console.log(resp);
+      } catch (error) {
+        console.log(error);
+        if (error.code === "ERR_BAD_REQUEST") setErrormsg("Email already in use");
+        else if (error.code === "ERR_BAD_RESPONSE")
+          setErrormsg("Server Not Responding...");
+        else setErrormsg("An error occurred. Please try again.");
+      }
+      setIsLoading(false);
+    };
   };
   const animateVariants = {
     show: {
@@ -47,20 +127,21 @@ const Signin = (props) => {
     <>
       <div className={`row d-flex align-items-center ${classes.container}`}>
         <motion.form
-          // initial={{ scaleY: props.pagename === "Signup" ? 1 : 1 }}
-          // animate={{ scaleY: props.pagename === "Signup" ? 1 : 1 }}
-          // exit={{ scaleY: props.pagename === "Signup" ? 1 : 1 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
           key={props.pagename}
           className={`border-bottom-0 ${classes.form}`}
         >
+          {!isLoading && <p className={classes.loading}> {errormsg}</p>}
+          {isLoading && (
+            <div className="spinner-border text-danger" role="status">
+              {/* <span className="sr-only">Loading...</span> */}
+            </div>
+          )}
           <motion.div
             variants={animateVariants}
             animate="show"
             exit="exit"
             className={classes.box}
           ></motion.div>
-
           {props.pagename === "Signup" && (
             <motion.div
               initial={{ height: 0 }}
@@ -76,6 +157,10 @@ const Signin = (props) => {
                   id="name"
                   placeholder="Name"
                   autoComplete="on"
+                  ref={nameInputRef}
+                  pattern=".{4,}"
+                  title="Username must be at least 4 characters long"
+                  required
                 />
               </div>
               <div className="input-group mb-3">
@@ -85,10 +170,15 @@ const Signin = (props) => {
                   id="phone"
                   autoComplete="on"
                   placeholder="Phone Number"
+                  ref={phoneInputRef}
+                  pattern="[0-9]{10}"
+                  title="Please enter your 10 digit number "
+                  required
                 />
               </div>
             </motion.div>
           )}
+
           <div className="input-group mb-3">
             <input
               className="form-control"
@@ -96,6 +186,9 @@ const Signin = (props) => {
               id="email"
               autoComplete="on"
               placeholder="email-id"
+              ref={emailInputRef}
+              title="Please enter a valid email address in the format user@example.com"
+              required
             />
           </div>
           <div className="input-group mb-3">
@@ -104,10 +197,10 @@ const Signin = (props) => {
               id="password"
               className="form-control"
               placeholder={!showPassword ? " · · · · · · · · " : "password"}
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              ref={passwordInputRef}
+              pattern=".{8,}"
+              title="Password must be at least 8 characters long"
+              required
             />
             <span className="input-group-text" onClick={handleTogglePassword}>
               {showPassword ? <RiEyeOffFill /> : <RiEyeFill />}
@@ -115,20 +208,37 @@ const Signin = (props) => {
           </div>
 
           <div className={classes.buttons}>
-            <button className="btn btn-primary w-100" type="submit">
+            <button
+              className="btn btn-primary w-100"
+              type="submit"
+              onClick={signupLoginHandler}
+            >
               {props.pagename}
             </button>
           </div>
+
           <div className={classes.pagechange}>
             <b>
               <p
                 onClick={loginpageHandler}
                 className="small font-monospace text-center row text-dark "
               >
-                {" "}
                 {props.pagename === "Signup" ? "Already" : "Don't"} have an
                 account? {props.pagename === "Signup" ? "Login " : "Signup"}
               </p>
+              <motion.p
+                initial={{ height: 0 }}
+                animate={{ height: "auto" }}
+                exit={{ height: 0 }}
+                className="small d-flex justify-content-end font-monospace row text-dark "
+                style={{ fontSize: "2vh" }}
+                onClick={forgotPasswordHandler}
+              >
+                {" "}
+                {props.pagename === "Login"
+                  ? "Forgot Password?"
+                  : "                  "}
+              </motion.p>
             </b>
           </div>
         </motion.form>
