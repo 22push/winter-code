@@ -1,25 +1,24 @@
 import { Outlet } from "react-router";
-import classes from "./HomePage.module.css";
-import SidebarContext from "../store/sidebar-context";
-import { useContext } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from 'react-router';
+
 export default function HomePage() {
-  const sidebarCtx = useContext(SidebarContext);
+  const navigate = useNavigate();
+
+  const MediformChangeHandler = () => {
+    navigate('./addMedication');
+  };
+  const MedidataChangeHandler = () => {
+    navigate('./medicationData');
+  }
 
   return (
-    <div>
-      {/* <AnimatePresence> */}
-      {sidebarCtx.isSidebarOpen && (
-        <motion.div
-          initial={{ width: 0 }}
-          animate={{ width: "auto" }}
-          exit={{ width: 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={` ${classes.sidebar}`}
-        ></motion.div>
-      )}
+    <div className="container d-flex align-items-center " style={{ width: '100vh', flexDirection: 'column' }}>
       <Outlet />
-      {/* </AnimatePresence> */}
+      <br />
+      <div className="h3" onClick={MediformChangeHandler}>Add Medication</div>
+      <div className="h3" onClick={MedidataChangeHandler} >Medication Data</div>
+
     </div>
   );
 }

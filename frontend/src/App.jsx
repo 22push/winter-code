@@ -9,6 +9,10 @@ import { Route, Routes, useLocation, HashRouter } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import SidebarContextProvider from "./store/sidebarContextProvider";
+import Medicines from "./pages/Medicines";
+import MedicationData from "./components/MedicationData";
+import MedicineInputForm from "./components/MedicineInputForm";
+import MedicationDataID from "./components/MedicationDataID";
 // const HashRouter = createHashRouter([
 //   {
 //     path: "/",
@@ -42,6 +46,10 @@ function RoutesWithAnimation() {
       <Routes location={location} key={location.key}>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/medicines" element={<Medicines />} />
+        <Route path='addMedication' element={<MedicineInputForm />} />
+        <Route path="/medicationData" element={<MedicationData />} />
+        <Route path="/medicationData/:id" element={<MedicationDataID />} />
         <Route path="/" element={<HomePage />} />
       </Routes>
     </AnimatePresence>
@@ -50,10 +58,16 @@ function RoutesWithAnimation() {
 function App() {
   return (
     <HashRouter>
-        <SidebarContextProvider>
-          <Navbar />
-          <RoutesWithAnimation />
-        </SidebarContextProvider>
+      <SidebarContextProvider>
+        <div className="container text-center h2">
+          𝓜𝓮𝓭𝓲𝓬𝓪𝓽𝓲𝓸𝓷 𝓣𝓻𝓪𝓬𝓴𝓮𝓻 & 𝓡𝓮𝓶𝓲𝓷𝓭𝓮𝓻 𝓐𝓹𝓹
+        </div>
+        <br />
+        <Navbar />
+        <br />
+        <br />
+        <RoutesWithAnimation />
+      </SidebarContextProvider>
     </HashRouter>
   );
 }
