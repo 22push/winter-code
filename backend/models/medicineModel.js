@@ -1,4 +1,11 @@
 const mongoose = require('mongoose');
+const User = require('./userModel');
+
+// const userId = {
+//     User.forEach(element => {
+        
+//     });
+// }
 
 const medicineSchema = new mongoose.Schema({
     name: {
@@ -27,8 +34,11 @@ const medicineSchema = new mongoose.Schema({
     startedAt: {
         type: Date,
         default: Date.now()
+    },
+    userId: {
+        type: String,
+        required: true
     }
-
 });
 
 const Medicine = mongoose.model('Medicine',medicineSchema);
