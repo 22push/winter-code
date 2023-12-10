@@ -10,7 +10,7 @@ const signupmodel = new Schema({
   phoneno: {
     type: "Number",
     required: true,
-    },
+  },
   emailid: {
     type: "string",
     required: true,
@@ -20,43 +20,40 @@ const signupmodel = new Schema({
     type: "string",
     required: true,
   },
-      id:{
-        type:"Number",
-        default: -1,
-          },
-          passwordChangedAt :Date,
-        resetPasswordToken :{
-        type:"string",
-        },
-        passwordresetexpired :Date,
+
+  passwordChangedAt: Date,
+  resetPasswordToken: {
+    type: "string",
+  },
+  passwordresetexpired: Date,
 })
 signupmodel.pre("save", async function (next) {
 
-      this.password = await bcrypt.hash(this.password, 12);
-      next();
+  this.password = await bcrypt.hash(this.password, 12);
+  next();
 });
-signupmodel.pre('save', function(next) {
-      if (!this.isModified('password') || this.isNew) return next();
+signupmodel.pre('save', function (next) {
+  if (!this.isModified('password') || this.isNew) return next();
 
-      this.passwordChangedAt = Date.now() - 1000;
-      next();
+  this.passwordChangedAt = Date.now() - 1000;
+  next();
 })
 signupmodel.methods.correctPassword = async function (
   candidatePassword,
   userPassword) {
-      return await bcrypt.compare(candidatePassword, userPassword);
+  return await bcrypt.compare(candidatePassword, userPassword);
 };
-signupmodel.methods.createpasswordresetpassword =function () {
-  
-    const resetToken = Math.floor(Math.random() *100000)+ 100000
-  
-    this.resetPasswordToken = resetToken;
-      console.log({resetToken},this.resetPasswordToken);
+signupmodel.methods.createpasswordresetpassword = function () {
 
-      this.passwordresetexpired = Date.now() + 600000;
+  const resetToken = Math.floor(Math.random() * 100000) + 100000
 
-      return resetToken;
+  this.resetPasswordToken = resetToken;
+  console.log({ resetToken }, this.resetPasswordToken);
+
+  this.passwordresetexpired = Date.now() + 600000;
+
+  return resetToken;
 }
-const signup = mongoose.model("user1",signupmodel);
+const signup = mongoose.model("user1", signupmodel);
 
 module.exports = signup;

@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-const User = require('./userModel');
+// const User = require('./userModel');
 
 // const userId = {
 //     User.forEach(element => {
-        
+
 //     });
 // }
 
@@ -15,16 +15,8 @@ const medicineSchema = new mongoose.Schema({
         trim: true
     },
     dosage: {
-        type: Number,
+        type: String,
         required: [true, 'A medicine must have a Dose Size!']
-    },
-    duration: {
-        type: Number,
-        required: [true, 'A medicine must have a duration!']
-    },
-    frequency: {
-        type: Number,
-        required: [true, 'A medicine must have a Frequency']
     },
     summary: {
         type: String,
@@ -32,15 +24,32 @@ const medicineSchema = new mongoose.Schema({
         required: [true, 'A medication must have a Description Summary!']
     },
     startedAt: {
-        type: Date,
+        type: String,
         default: Date.now()
     },
+    instruction: {
+        type: String,
+        required: [true, 'A medicine must have a instruction!']
+    },
+    frequency: {
+        type: String,
+        required: [true, 'A medicine must have a Frequency']
+    },
+
     userId: {
         type: String,
+        required: true
+    },
+    time: {
+        type: String,
+        // default: Date.now().time().toString()
+    },
+    notification: {
+        type: Boolean,
         required: true
     }
 });
 
-const Medicine = mongoose.model('Medicine',medicineSchema);
+const Medicine = mongoose.model('Medicine', medicineSchema);
 
 module.exports = Medicine;
