@@ -79,14 +79,11 @@ exports.deleteMedicine = async (req, res) => {
 
         res.status(204).json({
             status: 'success',
-            data: {
-                medicine: null
-            }
         });
     } catch (err) {
         res.status(400).json({
             status: 'failed to update',
-            message: err
+            message: "error"
         });
     }
 
