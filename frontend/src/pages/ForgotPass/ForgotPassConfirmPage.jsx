@@ -48,10 +48,10 @@ const ForgotPassConfirmPage = () => {
       setErrormsg("");
       setIsLoading(true);
       const resp = await axios.patch(
-        `${ToLink}/resetpassword/${code}`,
+        `${ToLink}/user/resetpassword/${code}`,
         body,
         {
-          timeout: 20000,
+          timeout: 30000,
         }
       );
       if (resp.data.status === "success") {

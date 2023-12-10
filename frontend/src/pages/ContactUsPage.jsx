@@ -92,7 +92,6 @@ const ContactUsPage = () => {
                             autoComplete="on"
                             placeholder="Name"
                             value={name}
-                            disabled
                             required
                         />
                     </div>
@@ -104,7 +103,6 @@ const ContactUsPage = () => {
                             autoComplete="on"
                             placeholder="Email"
                             value={email}
-                            disabled
                             required
                         />
                     </div>

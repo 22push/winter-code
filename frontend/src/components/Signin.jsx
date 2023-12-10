@@ -48,58 +48,51 @@ const Signin = (props) => {
     if (props.pagename === "Signup") {
       enteredName = nameInputRef.current.value;
       data.name = enteredName;
-      if (enteredEmail.trim().length === 0) { return setErrormsg("Please enter all the fields"); }
-    } else {
       const enteredPhone = phoneInputRef.current.value;
       data.phoneno = enteredPhone;
-      const idno = (Math.floor(Math.random() * 10000) % 15) + 1;
-      data.id = idno;
+      if (enteredName.trim().length === 0 || enteredPhone.trim().length === 0) { return setErrormsg("Please enter all the fields"); }
+      if (enteredEmail.trim().length === 0) { return setErrormsg("Please enter all the fields"); }
+    } else {
+      // const idno = (Math.floor(Math.random() * 10000) % 15) + 1;
+      // data.id = idno;
+    }
+    const page = props.pagename.toLowerCase();
 
-      const page = props.pagename.toLowerCase();
+    try {
+      setIsLoading(true);
+      let resp;
+      resp = await axios.post(`${ToLink}/user/${page}`, data, {
+        timeout: 30000,
+      });
 
-      try {
-        // console.log(`${ToLink}/${selBut}/${page}`);
-        setIsLoading(true);
-        let resp;
+      console.log(resp);
+      if (resp.status === 201 || resp.status === 200) {
+        localStorage.setItem("isLoggedIn", "1");
+        localStorage.setItem("email", enteredEmail);
+        if (props.pagename === "Login") {
+          localStorage.setItem("name", resp.data.name);
+          localStorage.setItem("id", resp.data.id);
+        }
+        emailInputRef.current.value = "";
+        passwordInputRef.current.value = "";
         if (props.pagename === "Signup") {
-          // resp = await axios.post(`${ToLink}/${selBut}/${page}`, data, options, {
-          //   timeout: 30000,
-          // });
-        } else {
-          // resp = await axios.post(`${ToLink}/${selBut}/${page}`, data, {
-          //   timeout: 30000,
-          // });
+          localStorage.setItem("name", enteredName);
+          localStorage.setItem("id", resp.data.data.usersignup.id);
+          nameInputRef.current.value = "";
+          phoneInputRef.current.value = "";
         }
-
-        if (resp.status === 201 || resp.status === 200) {
-          localStorage.setItem("isLoggedIn", "1");
-          localStorage.setItem("email", enteredEmail);
-          if (props.pagename === "Login") {
-            localStorage.setItem("name", resp.data.name);
-            localStorage.setItem("token", resp.data.token);
-            localStorage.setItem("id", resp.data.id);
-          }
-          emailInputRef.current.value = "";
-          passwordInputRef.current.value = "";
-          if (props.pagename === "Signup") {
-            localStorage.setItem("name", enteredName);
-            nameInputRef.current.value = "";
-            phoneInputRef.current.value = "";
-          }
-          setTimeout(() => {
-            navigate("/");
-          }, 1000);
-        }
-        // console.log(resp);
-      } catch (error) {
-        console.log(error);
-        if (error.code === "ERR_BAD_REQUEST") setErrormsg("Email already in use");
-        else if (error.code === "ERR_BAD_RESPONSE")
-          setErrormsg("Server Not Responding...");
-        else setErrormsg("An error occurred. Please try again.");
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
       }
-      setIsLoading(false);
-    };
+    } catch (error) {
+      console.log(error);
+      if (error.code === "ERR_BAD_REQUEST") setErrormsg("Email already in use");
+      else if (error.code === "ERR_BAD_RESPONSE")
+        setErrormsg("Server Not Responding...");
+      else setErrormsg("An error occurred. Please try again.");
+    }
+    setIsLoading(false);
   };
   const animateVariants = {
     show: {
