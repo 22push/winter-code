@@ -10,20 +10,26 @@ Contributors:
 
 User Guide:
 Sign Up:
- ![SignUp](https://github.com/22push/winter-code/blob/main/ImagesReadme/SignUp.png)
+ ![SignUp](https://github.com/22push/winter-code/blob/main/Screenshot%202023-12-10%20224317.png)
+ 
 Login:
  ![Login](https://github.com/22push/winter-code/blob/main/Screenshot%202023-12-10%20224241.png)
+ 
  Home
  ![Home](https://github.com/22push/winter-code/blob/main/Medtracker-Home.png)
+ 
 How to Add your Medication: 
 ![Medication](https://github.com/22push/winter-code/blob/main/Medtracker-AddMedication.png)
+
 Medication Data
 ![Data](https://github.com/22push/winter-code/blob/main/Medtracker-MedicationData.png)
-Reminder
-![Reminder](https://github.com/22push/winter-code/blob/main/Screenshot%202023-12-10%20224452.png)
+
 Notification Permission:
  ![Notification](https://github.com/22push/winter-code/blob/main/ImagesReadme/Notification.png)
+ 
 Search for Medicines:
 ![Search](https://github.com/22push/winter-code/blob/main/ImagesReadme/MedicineSearch.png)
+
 Contact Us:
 ![ContactUs](https://github.com/22push/winter-code/blob/main/ImagesReadme/ContactUs.png)
+
