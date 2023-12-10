@@ -47,7 +47,7 @@ function RoutesWithAnimation() {
   );
 }
 function App() {
-  const messaging = firebase.messaging();
+
 
   return (
     <HashRouter>
