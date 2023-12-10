@@ -10,10 +10,10 @@ Contributors:
 
 User Guide:
 Sign Up:
- ![SignUp](https://github.com/22push/winter-code/blob/main/Screenshot%202023-12-10%20224317.png)
+ ![SignUp](signup.png)
  
 Login:
- ![Login](https://github.com/22push/winter-code/blob/main/Screenshot%202023-12-10%20224241.png)
+ ![Login](login.png)
  
  Home
  ![Home](https://github.com/22push/winter-code/blob/main/Medtracker-Home.png)
