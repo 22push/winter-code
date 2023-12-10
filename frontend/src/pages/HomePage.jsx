@@ -1,5 +1,6 @@
 import { Outlet } from "react-router";
 // import { motion } from "framer-motion";
+import classes from './HomePage.module.css';
 import { useNavigate } from 'react-router';
 
 export default function HomePage() {
@@ -29,7 +30,6 @@ export default function HomePage() {
       <br />
       <div className="h3" onClick={MediformChangeHandler}>Add Medication</div>
       <div className="h3" onClick={MedidataChangeHandler} >Medication Data</div>
-
     </div>
   );
 }
