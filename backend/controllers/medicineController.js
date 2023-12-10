@@ -5,13 +5,16 @@ exports.getAllMedicine = async (req,res)=> {
 
     try {
         
-        const medicines = await Medicine.find();
+        const userId = req.params.userId;
+        // const id = req.params.id;
+        const medicines = await Medicine.find({userId});
 
     res.status(200).json({
         status: 'success',
-        data: {
-            medicines: medicines
-        }
+       
+                data: {
+                medicines
+            }   
     });
     } catch (err) {
         res.status(404).json({
@@ -25,12 +28,14 @@ exports.getAllMedicine = async (req,res)=> {
 exports.getMedicine = async (req,res)=> {
 
     try {
-        const medicine = await Medicine.findById(req.params.id);
+        const id = req.id;
+        const userId = req.userId;
+        const medicine = await Medicine.find({_id: id});
 
         res.status(200).json({
             status: 'success',
             data: {
-                medicine: medicine
+                medicine
             }
         });
     } catch (err) {
@@ -46,7 +51,10 @@ exports.getMedicine = async (req,res)=> {
 exports.createMedicine = async (req,res)=>{
 
     try {
+        const userId = req.params.userId;
+        //const id = req.params.id;
         const newMedicine = await Medicine.create(req.body);
+        newMedicine.userId = userId;
         res.status(201).json({
         status: 'success',
             data: {
@@ -56,7 +64,7 @@ exports.createMedicine = async (req,res)=>{
     } catch (err) {
         res.status(400).json({
             status: 'fail',
-            message: 'Invalid Data Sent!'
+            message: err
         });
     }
     
@@ -65,8 +73,9 @@ exports.createMedicine = async (req,res)=>{
 exports.deleteMedicine = async (req,res)=>{
     
     try{
-
-        const medicine = await Medicine.findByIdAndDelete(req.params.id);
+        const userId = req.params.userId;
+        const id = req.params.id;
+        const medicine = await Medicine.findByIdAndDelete(id);
 
         res.status(204).json({
                 status: 'success',
@@ -87,7 +96,8 @@ exports.deleteMedicine = async (req,res)=>{
 exports.updateMedicine = async (req,res)=>{
     
     try {
-
+        const userId = req.params.userId;
+        const id = req.params.id;
         const medicine = await Medicine.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
             runValidators: true
