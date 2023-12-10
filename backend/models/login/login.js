@@ -32,15 +32,31 @@ const signupmodel = new Schema({
 })
 signupmodel.pre("save", async function (next) {
 
-  this.password = await bcrypt.hash(this.password, 12);
-  next();
+      this.password = await bcrypt.hash(this.password, 12);
+      next();
 });
+signupmodel.pre('save', function(next) {
+      if (!this.isModified('password') || this.isNew) return next();
+
+      this.passwordChangedAt = Date.now() - 1000;
+      next();
+})
 signupmodel.methods.correctPassword = async function (
   candidatePassword,
-  userPassword
-) {
-  return await bcrypt.compare(candidatePassword, userPassword);
+  userPassword) {
+      return await bcrypt.compare(candidatePassword, userPassword);
 };
+signupmodel.methods.createpasswordresetpassword =function () {
+  
+    const resetToken = Math.floor(Math.random() *100000)+ 100000
+  
+    this.resetPasswordToken = resetToken;
+      console.log({resetToken},this.resetPasswordToken);
+
+      this.passwordresetexpired = Date.now() + 600000;
+
+      return resetToken;
+}
 const signup = mongoose.model("user1",signupmodel);
 
 module.exports = signup;
