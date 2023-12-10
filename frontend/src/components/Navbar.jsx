@@ -11,18 +11,45 @@ const Navbar = (params) => {
   const location = useLocation();
   const locationPath = location.pathname;
 
+  const isLoggedIn = localStorage.getItem("isLoggedIn") || false;
+  // console.log(isLoggedIn);
   const LoginPageHandler = () => {
-    if (locationPath === "/") {
+    if (!isLoggedIn) {
       navigate("/login");
     } else {
       navigate("/");
     }
   };
+  const HomePageHandler = () => {
+    navigate("/");
+  }
+
+  const LogoutHandler = () => {
+    localStorage.clear();
+    navigate("/");
+  }
+  const medicineHandler = () => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    } else {
+      navigate("/medicines");
+    }
+  }
+
+  const contactUSHandler = () => {
+    if (!isLoggedIn) {
+      navigate("/login");
+    }
+    else {
+      navigate("/contactUs");
+    }
+  }
+
   return (
     <div className={classes.navbar}>
       {/* <GiHamburgerMenu onClick={sidebarHandler} /> */}
       {/* <motion.div> */}
-      {locationPath === "/" && (
+      {!isLoggedIn && (
         <motion.button
           initial={{ opacity: 0.5 }}
           animate={{ opacity: 1 }}
@@ -41,14 +68,14 @@ const Navbar = (params) => {
           exit={{ opacity: 0.5 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
           className="nav-link"
-          onClick={LoginPageHandler}
+          onClick={HomePageHandler}
         >
           Home Page
         </motion.button>
       )}
 
       {/* </motion.div> */}
-      <span onClick={() => { navigate('/medicines') }}>Medicines</span>
+      <span onClick={medicineHandler}>Medicines</span>
       <span>Symptom Checker</span>
       {/* <span>
         <div class="container mt-3" style={{ width: '300px' }}>
@@ -69,7 +96,20 @@ const Navbar = (params) => {
         </div>
 
       </span> */}
-      <span onClick={() => { navigate('/contactUs') }}>Contact Us</span>
+      <span onClick={contactUSHandler}>Contact Us</span>
+
+      {isLoggedIn && (
+        <motion.button
+          initial={{ opacity: 0.5 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0.5 }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+          className={`nav-link`}
+          onClick={LogoutHandler}
+        >
+          Logout
+        </motion.button>
+      )}
     </div >
   );
 };

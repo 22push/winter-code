@@ -29,9 +29,9 @@ const ForgotPassPage = () => {
     try {
       setIsLoading(true);
       const resp = await axios.post(
-        `${ToLink}/forgotpassword`,
+        `${ToLink}/user/forgotpassword`,
         body,
-        { timeout: 20000 }
+        { timeout: 30000 }
       );
 
       if (resp.data.status === "success") {

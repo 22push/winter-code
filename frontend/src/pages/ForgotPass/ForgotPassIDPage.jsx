@@ -34,8 +34,8 @@ const ForgotPassIDPage = () => {
     try {
       setErrormsg("");
       setIsLoading(true);
-      const resp = await axios.post(`${ToLink}/verifycode`, body, {
-        timeout: 20000,
+      const resp = await axios.post(`${ToLink}/user/verifycode`, body, {
+        timeout: 30000,
       });
       if (resp.data.status === "success") {
         localStorage.setItem("Passcode2", "1");

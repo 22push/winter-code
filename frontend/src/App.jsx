@@ -19,31 +19,10 @@ import ForgotPassConfirmPage from "./pages/ForgotPass/ForgotPassConfirmPage";
 import Errorpage from "./pages/Errorpage";
 import ContactUsPage from "./pages/ContactUsPage";
 
-export const ToLink = 'www.google.com';
-// const HashRouter = createHashRouter([
-//   {
-//     path: "/",
-//     element: <HomePage />,
-//     children: [
-//       { index: true, element: <Checkboot /> },
-//       {
-//         path: "/login",
-//         element: <LoginPage />,
-//       },
-//       {
-//         path: "/signup",
-//         element: <SignupPage />,
-//       },
-//     ],
-//   },
-// ]);
-// function App() {
-//   return (
-//     <AnimatePresence>
-//       <RouterProvider router={HashRouter} />;
-//     </AnimatePresence>
-//   );
-// }
+import firebase from "./firebase";
+
+export const ToLink = 'https://winter-code.onrender.com';
+
 
 function RoutesWithAnimation() {
   const location = useLocation();
@@ -61,8 +40,6 @@ function RoutesWithAnimation() {
         <Route path='addMedication' element={<MedicineInputForm />} />
         <Route path="/medicationData" element={<MedicationData />} />
         <Route path="/medicationData/:id" element={<MedicationDataID />} />
-        {/* <Route path="/medicationData/:id/edit" element={<MedicationDataIDedit />} /> */}
-
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={<Errorpage />} />
       </Routes>
@@ -70,6 +47,8 @@ function RoutesWithAnimation() {
   );
 }
 function App() {
+  const messaging = firebase.messaging();
+
   return (
     <HashRouter>
       <SidebarContextProvider>
