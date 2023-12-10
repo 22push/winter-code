@@ -52,7 +52,7 @@ function App() {
   return (
     <HashRouter>
       <SidebarContextProvider>
-        <div className="container text-center h2">
+        <div className="heading">
           𝓜𝓮𝓭𝓣𝓻𝓪𝓬𝓴𝓮𝓻 : 𝓜𝓮𝓭𝓲𝓬𝓪𝓽𝓲𝓸𝓷 𝓣𝓻𝓪𝓬𝓴𝓮𝓻 & 𝓡𝓮𝓶𝓲𝓷𝓭𝓮𝓻 𝓐𝓹𝓹
         </div>
         <br />

@@ -50,33 +50,33 @@ const Navbar = (params) => {
       {/* <GiHamburgerMenu onClick={sidebarHandler} /> */}
       {/* <motion.div> */}
       {!isLoggedIn && (
-        <motion.button
+        <div
           initial={{ opacity: 0.5 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0.5 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={`nav-link`}
+          className={classes.nav1}
           onClick={LoginPageHandler}
         >
           Login / Signup
-        </motion.button>
+        </div>
       )}
       {locationPath !== "/" && (
-        <motion.button
+        <div
           initial={{ opacity: 0.5 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0.5 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="nav-link"
+          className={classes.nav1}
           onClick={HomePageHandler}
         >
           Home Page
-        </motion.button>
+        </div>
       )}
 
       {/* </motion.div> */}
-      <span onClick={medicineHandler}>Medicines</span>
-      <span>Symptom Checker</span>
+      <span onClick={medicineHandler} className={classes.nav1}>Medicines</span>
+      <span className={classes.nav1}>Symptom Checker</span>
       {/* <span>
         <div class="container mt-3" style={{ width: '300px' }}>
           <form class="form-inline">
@@ -96,19 +96,19 @@ const Navbar = (params) => {
         </div>
 
       </span> */}
-      <span onClick={contactUSHandler}>Contact Us</span>
+      <span onClick={contactUSHandler} className={classes.nav1}>Contact Us</span>
 
       {isLoggedIn && (
-        <motion.button
+        <div
           initial={{ opacity: 0.5 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0.5 }}
           transition={{ duration: 0.5, ease: "easeInOut" }}
-          className={`nav-link`}
+          className={classes.nav1}
           onClick={LogoutHandler}
         >
           Logout
-        </motion.button>
+        </div>
       )}
     </div >
   );

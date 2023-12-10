@@ -5,15 +5,20 @@
   justify-content: center;
   height: 90vh;
   position: relative;
-}
+  margin-left: 58%;
+  width: max-content;
 
+}
+.signin{
+  cursor: pointer;
+}
 .form {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: auto;
-  height: auto;
+  width: 60vh;
+  height: 50vh;
   border: 1px solid #413232;
   border-radius: 5px;
   padding: 10px;
@@ -22,6 +27,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
   border-radius: 14px;
   position: relative;
+  margin-top: -50%;
   overflow: hidden;
 }
 

@@ -5,3 +5,8 @@ body {
   background-size: cover;
   height: 100vh;
 }
+.heading{
+  margin-top: 2%;
+  font-size: xx-large;
+  margin-left: 45%;
+}

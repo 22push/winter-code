@@ -118,7 +118,7 @@ const ForgotPassPage = () => {
             <b>
               <p
                 onClick={loginpageHandler}
-                className="small font-monospace text-center row text-dark "
+                className={"small font-monospace text-center row text-dark " + classes.signin}
               >
                 Back to Login?
               </p>

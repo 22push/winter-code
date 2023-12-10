@@ -214,7 +214,7 @@ const Signin = (props) => {
             <b>
               <p
                 onClick={loginpageHandler}
-                className="small font-monospace text-center row text-dark "
+                className={"small font-monospace text-center row text-dark "+classes.signin}
               >
                 {props.pagename === "Signup" ? "Already" : "Don't"} have an
                 account? {props.pagename === "Signup" ? "Login " : "Signup"}
@@ -223,7 +223,7 @@ const Signin = (props) => {
                 initial={{ height: 0 }}
                 animate={{ height: "auto" }}
                 exit={{ height: 0 }}
-                className="small d-flex justify-content-end font-monospace row text-dark "
+                className={"small d-flex justify-content-end font-monospace row text-dark "+classes.signin}
                 style={{ fontSize: "2vh" }}
                 onClick={forgotPasswordHandler}
               >

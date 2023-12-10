@@ -5,6 +5,8 @@
   justify-content: center;
   height: 60vh;
   position: relative;
+  margin-left: 45%;
+  width: max-content;
 }
 
 .form {
@@ -12,8 +14,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: auto;
-  height: auto;
+  width: 60vh;
+  height: 50vh;
   border: 1px solid #413232;
   border-radius: 5px;
   padding: 10px;
@@ -23,6 +25,7 @@
   border-radius: 14px;
   position: relative;
   overflow: hidden;
+  margin-top: -50%;
 }
 
 .buttons {
@@ -56,6 +59,9 @@ input[type="number"]::-webkit-outer-spin-button {
   border-radius: 50%;
   scale: 300%;
   z-index: 1;
+}
+.signin{
+  cursor: pointer;
 }
 @media screen and (max-width: 580px) {
   .container {
