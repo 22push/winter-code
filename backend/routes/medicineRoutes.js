@@ -4,12 +4,12 @@ const medicineController = require("./../controllers/medicineController");
 const router = express.Router();
 
 router
-    .route("/")
+    .route("/:userId")
     .get(medicineController.getAllMedicine)
     .post(medicineController.createMedicine);
 
 router
-    .route("/:id")
+    .route("/:userId/:id")
     .get(medicineController.getMedicine)
     .delete(medicineController.deleteMedicine)
     .patch(medicineController.updateMedicine);
