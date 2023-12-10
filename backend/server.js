@@ -3,7 +3,6 @@ const dotenv = require("dotenv");
 const app = require("./app");
 const { MongoClient, ServerApiVersion } = require('mongodb');
 dotenv.config({ path: "./config.env" });
-const uri = "mongodb+srv://rgjain04:OXKkDCdnvIhWDRrP@cluster0.hhypail.mongodb.net/?retryWrites=true&w=majority"
 mongoose
   .connect(process.env.MONGO_PROD_URI, {
     useNewUrlParser: true,
