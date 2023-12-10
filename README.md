@@ -8,14 +8,14 @@ Contributors:
 
 User Guide:
 Sign Up:
- ![SignUp](https://github.com/22push/winter-code/blob/main/ImagesReadme/SignUp.png)
+ ![SignUp](signup.png)
 Login:
- ![Login](https://github.com/22push/winter-code/blob/main/ImagesReadme/SignUp.png)
+ ![Login](login.png)
 How to Add your Medication: 
-![Medication](https://github.com/22push/winter-code/blob/main/ImagesReadme/AddMedication.png)
+![Medication](medicineupdate.png)
 Notification Permission:
  ![Notification](https://github.com/22push/winter-code/blob/main/ImagesReadme/Notification.png)
 Search for Medicines:
 ![Search](https://github.com/22push/winter-code/blob/main/ImagesReadme/MedicineSearch.png)
 Contact Us:
-![ContactUs](https://github.com/22push/winter-code/blob/main/ImagesReadme/ContactUs.png)
+![ContactUs](feedback.png)
