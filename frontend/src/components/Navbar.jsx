@@ -1,7 +1,6 @@
 import classes from "./Navbar.module.css";
 import { useNavigate } from "react-router";
 import { useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
 // import { GiHamburgerMenu } from "react-icons/gi";
 // import { useContext } from "react";
 // import { useState } from 'react';

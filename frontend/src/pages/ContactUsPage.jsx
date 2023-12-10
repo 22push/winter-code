@@ -29,8 +29,7 @@ const ContactUsPage = () => {
         };
         try {
             setIsLoading(true);
-            console.log(body);
-            console.log(ToLink);
+
             const response = await axios.post(`${ToLink}/feedback`, body);
             console.log(response);
             setErrormsg("Your query has been submitted successfully");
@@ -92,6 +91,7 @@ const ContactUsPage = () => {
                             autoComplete="on"
                             placeholder="Name"
                             value={name}
+                            disabled
                             required
                         />
                     </div>
@@ -103,6 +103,7 @@ const ContactUsPage = () => {
                             autoComplete="on"
                             placeholder="Email"
                             value={email}
+                            disabled
                             required
                         />
                     </div>

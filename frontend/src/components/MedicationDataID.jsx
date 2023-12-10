@@ -127,34 +127,85 @@ export default function MedicationDataID() {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') || false;
+        let userID = localStorage.getItem('id') || false;
+        if (isLoggedIn) {
+            userID = localStorage.getItem('id');
+        }
+        if (userID === false || userID === null) {
+            navigate('/login');
+        }
         e.preventDefault();
         console.log('Medication Data:', medication);
         console.log('Reminder Data:', reminder);
 
+        const data = {
+            "name": medication.name,
+            "dosage": medication.dosage,
+            "summary": medication.prescriptionDetails,
+            "startedAt": medication.form,
+            "instruction": medication.instructions,
+            "frequency": reminder.frequency,
+            "userId": userID,
+            "time": reminder.time,
+            "notification": reminder.pushNotification,
+        };
+        if (data.dosage === '' || data.name === '') {
+            alert("Please fill all the fields");
+            return;
+        }
+        console.log(`${ToLink}/medicine/${userID}/${id}`);
+        try {
+            const res = await axios.patch(`${ToLink}/medicine/${userID}/${id}`, data, {
+                timeout: 30000,
+            });
+            console.log(res);
 
-        setMedication({
-            name: '',
-            dosage: '',
-            prescriptionDetails: '',
-            form: '',
-            instructions: '',
-        });
-        setReminder({
-            frequency: 'daily',
-            time: '',
-            pushNotification: true,
-        });
-        setEdit(!edit);
+            setMedication({
+                name: '',
+                dosage: '',
+                prescriptionDetails: '',
+                form: '',
+                instructions: '',
+            });
+            setReminder({
+                frequency: 'daily',
+                time: '',
+                pushNotification: true,
+            });
+            alert("Medicine updated Successfully");
+            navigate('/medicationData');
+
+        } catch (err) {
+            console.log(err);
+        }
     };
     console.log(selectedMedi);
+
+
+    const deleteHandler = async () => {
+        const userID = localStorage.getItem('id') || false;
+        if (userID === false || userID === null) {
+            navigate('/login');
+        }
+        try {
+            const response = await axios.delete(`${ToLink}/medicine/${userID}/${id}`);
+            console.log(response);
+            setEdit(!edit);
+            // navigate('/medicationdata');
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <div className={classes.container}>
             <h1>Medication Data</h1>
             {!edit && <><div className={classes["content-container"]}> {<ItemList items={selectedMedi} />}</div>
                 <div className="d-flex justify-content-between align-items-center">
                     <button className={classes["btn"]} onClick={editHandler}>Edit</button>
-                    <button className={classes["btn"]}>Delete</button>
+                    <button className={classes["btn"]} onClick={deleteHandler}>Delete</button>
                 </div>
             </>}
             {edit && <div>
