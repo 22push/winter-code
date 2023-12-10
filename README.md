@@ -5,6 +5,7 @@ Contributors:
 1.	Ayush Gupta
 2.	Pushkar Gupta
 3.	Rachit Jain
+
 User Guide:
 Sign Up:
  ![SignUp]](https://github.com/22push/winter-code/blob/main/Screenshot%202023-12-10%20224317.png)
