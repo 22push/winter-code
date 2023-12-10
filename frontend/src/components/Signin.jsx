@@ -77,7 +77,8 @@ const Signin = (props) => {
         passwordInputRef.current.value = "";
         if (props.pagename === "Signup") {
           localStorage.setItem("name", enteredName);
-          localStorage.setItem("id", resp.data.data.usersignup.id);
+          localStorage.setItem("id", resp.data.data.usersignup._id);
+
           nameInputRef.current.value = "";
           phoneInputRef.current.value = "";
         }

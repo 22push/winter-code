@@ -19,8 +19,6 @@ import ForgotPassConfirmPage from "./pages/ForgotPass/ForgotPassConfirmPage";
 import Errorpage from "./pages/Errorpage";
 import ContactUsPage from "./pages/ContactUsPage";
 
-import firebase from "./firebase";
-
 export const ToLink = 'https://winter-code.onrender.com';
 
 

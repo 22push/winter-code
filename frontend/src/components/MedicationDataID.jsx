@@ -2,37 +2,79 @@ import { useParams } from "react-router";
 import classes from './MedicationData.module.css';
 import styles from './medicineFormContainer.module.css';
 import ItemList from './ItemList';
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { ToLink } from "../App";
+import { useNavigate } from "react-router";
+
 
 export default function MedicationDataID() {
+    const navigate = useNavigate();
     const [edit, setEdit] = useState(false);
+    const [Loaddata, setData] = useState([]);
+
     const { id } = useParams();
-    const Loaddata = [
-        {
-            'id': '1',
-            'MedicationName': 'Paracetamol',
-            'Dosage': '500mg',
-            'PrescriptionDetails': 'Take 1 tablet every 4 hours as needed for pain',
-            'MedicationForm': 'Tablet',
-            'Instructions': 'Take with food',
-            'Frequency': '4 times a day',
-            'Time': '8:00 AM',
-            'Notification': 'On',
-            'edit': false,
-        },
-        {
-            'id': '2',
-            'MedicationName': 'Cetirizine',
-            'Dosage': '100mg',
-            'PrescriptionDetails': 'Take 1 tablet every 8 hours as needed for pain',
-            'MedicationForm': 'Tablet',
-            'Instructions': 'Take with food',
-            'Frequency': '4 times a day',
-            'Time': '8:00 AM',
-            'Notification': 'On',
-            'edit': false,
-        },
-    ]
+    // const Loaddata = [
+    //     {
+    //         'id': '1',
+    //         'MedicationName': 'Paracetamol',
+    //         'Dosage': '500mg',
+    //         'PrescriptionDetails': 'Take 1 tablet every 4 hours as needed for pain',
+    //         'MedicationForm': 'Tablet',
+    //         'Instructions': 'Take with food',
+    //         'Frequency': '4 times a day',
+    //         'Time': '8:00 AM',
+    //         'Notification': 'On',
+    //         'edit': false,
+    //     },
+    //     {
+    //         'id': '2',
+    //         'MedicationName': 'Cetirizine',
+    //         'Dosage': '100mg',
+    //         'PrescriptionDetails': 'Take 1 tablet every 8 hours as needed for pain',
+    //         'MedicationForm': 'Tablet',
+    //         'Instructions': 'Take with food',
+    //         'Frequency': '4 times a day',
+    //         'Time': '8:00 AM',
+    //         'Notification': 'On',
+    //         'edit': false,
+    //     },
+    // ]
+
+    useEffect(() => {
+        const userID = localStorage.getItem('id') || false;
+        if (userID === false || userID === null) {
+            navigate('/login');
+        }
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${ToLink}/medicine/${userID}`);
+                // const data = await response.json();
+                const data = response.data.data.medicines;
+
+                // console.log(response.data.data.medicines);
+                const newData = data.map((item) => {
+                    return {
+                        id: item._id,
+                        MedicationName: item.name,
+                        Dosage: item.dosage,
+                        PrescriptionDetails: item.summary,
+                        MedicationForm: item.startedAt,
+                        Instructions: item.instruction,
+                        Frequency: item.frequency,
+                        Time: item.time,
+                        Notification: item.notification === true ? 'On' : 'Off',
+                        edit: false,
+                    };
+                });
+                setData(newData);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchData();
+    }, []);
+    // let selectedMedi = <p style={{ textAlign: "center" }}>No Data found.</p>;
     let selectedMedi = Loaddata.filter((ele) => ele.id === id);
 
     const editHandler = () => {
@@ -109,7 +151,7 @@ export default function MedicationDataID() {
     return (
         <div className={classes.container}>
             <h1>Medication Data</h1>
-            {!edit && <><div className={classes["content-container"]}>{<ItemList items={selectedMedi} />}</div>
+            {!edit && <><div className={classes["content-container"]}> {<ItemList items={selectedMedi} />}</div>
                 <div className="d-flex justify-content-between align-items-center">
                     <button className={classes["btn"]} onClick={editHandler}>Edit</button>
                     <button className={classes["btn"]}>Delete</button>

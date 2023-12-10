@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router';
+import { ToLink } from '../App';
 import styles from './medicineFormContainer.module.css';
 
 const MedicineInputForm = () => {
+    const navigate = useNavigate();
     const [medication, setMedication] = useState({
         name: '',
         dosage: '',
@@ -32,24 +36,58 @@ const MedicineInputForm = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') || false;
+        let userID = localStorage.getItem('id') || false;
+        if (isLoggedIn) {
+            userID = localStorage.getItem('id');
+        }
+        if (userID === false || userID === null) {
+            navigate('/login');
+        }
         e.preventDefault();
         console.log('Medication Data:', medication);
         console.log('Reminder Data:', reminder);
 
+        const data = {
+            "name": medication.name,
+            "dosage": medication.dosage,
+            "summary": medication.prescriptionDetails,
+            "startedAt": medication.form,
+            "instruction": medication.instructions,
+            "frequency": reminder.frequency,
+            "userId": userID,
+            "time": reminder.time,
+            "notification": reminder.pushNotification,
+        };
+        if (data.dosage === '' || data.name === '') {
+            alert("Please fill all the fields");
+            return;
+        }
 
-        setMedication({
-            name: '',
-            dosage: '',
-            prescriptionDetails: '',
-            form: '',
-            instructions: '',
-        });
-        setReminder({
-            frequency: 'daily',
-            time: '',
-            pushNotification: true,
-        });
+        try {
+            const res = await axios.post(`${ToLink}/medicine/${userID}`, data, {
+                timeout: 30000,
+            });
+            console.log(res);
+
+            setMedication({
+                name: '',
+                dosage: '',
+                prescriptionDetails: '',
+                form: '',
+                instructions: '',
+            });
+            setReminder({
+                frequency: 'daily',
+                time: '',
+                pushNotification: true,
+            });
+            alert("Medicine Added Successfully");
+            navigate('/medicationData');
+        } catch (err) {
+            console.log(err);
+        }
     };
 
     return (
